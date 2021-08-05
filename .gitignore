@@ -29,3 +29,11 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-project
 /tests/tests/
 /tests/results/
+
+## Default image
+assets/img/upload/article/*
+!assets/img/upload/article/placeholder.png
+
+assets/img/upload/content/*
+!assets/img/upload/content/placeholder.png
+
