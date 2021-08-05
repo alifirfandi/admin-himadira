@@ -81,6 +81,22 @@ class Views extends CI_Controller
         ));
     }
 
+    public function createContentMedium()
+    {
+        $this->load->view("create-content-medium", array(
+            "title" => "Medium Content",
+            "sideBar" => $this->sideBar
+        ));
+    }
+
+    public function editContentMedium()
+    {
+        $this->load->view("edit-content-medium", array(
+            "title" => "Medium Content",
+            "sideBar" => $this->sideBar
+        ));
+    }
+
     public function categories()
     {
         $this->load->view("categories", array(
