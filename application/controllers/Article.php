@@ -1,6 +1,5 @@
 <?php
 defined("BASEPATH") OR exit("No direct script access allowed");
-
 class Article extends CI_Controller {
 
 	// Public Variable
@@ -44,7 +43,7 @@ class Article extends CI_Controller {
         ));
 
         // Check Session
-        // $this->session->check_login_session($this->request);
+        $this->session->check_login_session($this->request);
     }
 
 	public function index()

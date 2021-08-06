@@ -15,11 +15,11 @@ class ArticleLib
 		$query = "
 			SELECT `article`.`id`, `article`.`title`, `article`.`description`, `article`.`thumbnail`, `article`.`link`, `article`.`counter`
 			FROM `article`
-			ORDER BY `article`.`created_at` DESC
+			ORDER BY `article`.`id` DESC
 		";
 
 		$articles = $this->params["sql"]
-			->query($query, $this->table)
+			->query($query)
 			->result_array();
 
 		return $articles;
