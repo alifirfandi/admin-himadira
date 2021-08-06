@@ -154,6 +154,10 @@ function renderArticleThumbnail (_data, _type, row) {
 	` ;
 }
 
+function prepareUpdate(idArticle) {
+	location.assign(global.base_url + 'views/editContentMedium/' + idArticle);
+}
+
 function confirmDelete(idArticle) {
 	$("#id-article").val(idArticle);
 }

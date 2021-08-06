@@ -51,7 +51,7 @@
             <!-- Dropify -->
             <script src="'. base_url("assets/vendor/vendor/dropify/dist/js/dropify.js") . '"></script>
 
-			<-- Selectize -->
+			<!-- Selectize -->
 			<script src="' . base_url("assets/vendor/vendor/selectize/selectize.js") . '"></script>
             
             <!-- PageJS -->

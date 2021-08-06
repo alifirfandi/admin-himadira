@@ -9,7 +9,12 @@ $(document).ready(function () {
 		const TagsInput = $("#tags").val();
 		const thumbnailInput = $("#thumbnail")[0].files[0];
 
-		if (titleInput == "" || descriptionInput == "" || linkInput == "") {
+		if (
+			titleInput == "" ||
+			descriptionInput == "" ||
+			linkInput == "" ||
+			TagsInput == ""
+		) {
 			toastr.error("Harap isi semua kolom yang tersedia");
 			return;
 		} else if (!thumbnailInput) {

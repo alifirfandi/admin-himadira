@@ -28,7 +28,7 @@ class ArticleLib
 	public function getArticlesTags($articleId)
 	{
 		$query = "
-			SELECT `m_tags`.`tag` 
+			SELECT `m_tags`.`id`, `m_tags`.`tag` 
 			FROM `article_tag`
 			JOIN `m_tags` ON `m_tags`.`id` = `article_tag`.`id_m_tags`
 			WHERE `article_tag`.`id_article` = '$articleId'
@@ -43,20 +43,20 @@ class ArticleLib
 
 	public function getOne($id)
 	{
-		return $this->params["sql"]->get("thumbnail", "id = $id", $this->table)->row_array();
+		return $this->params["sql"]->get("*", "id = $id", $this->table)->row_array();
 	}
 
-	public function create($dataCategory)
+	public function create($dataArticle)
 	{
-		$idCategory = $this->params["sql"]->create($dataCategory, $this->table);
-		return $idCategory;
+		$idArticle = $this->params["sql"]->create($dataArticle, $this->table);
+		return $idArticle;
 	}
 
-	public function update($idCategory, $dataCategory)
+	public function update($idArticle, $dataArticle)
 	{
 		return $this->params["sql"]->update(
-			array("id" => $idCategory),
-			$dataCategory,
+			array("id" => $idArticle),
+			$dataArticle,
 			$this->table
 		);
 	}

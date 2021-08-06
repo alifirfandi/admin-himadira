@@ -16,10 +16,10 @@ class ArticleTagLib
 		return $this->params["sql"]->get("id", "id_article = $idArticle", $this->table)->row_array();
 	}
 
-	public function create($dataCategory)
+	public function create($dataArticlesTags)
 	{
-		$idCategory = $this->params["sql"]->create($dataCategory, $this->table);
-		return $idCategory;
+		$idArticlesTags = $this->params["sql"]->create($dataArticlesTags, $this->table);
+		return $idArticlesTags;
 	}
 	
 	public function delete($idArticle)
