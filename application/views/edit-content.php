@@ -1,8 +1,22 @@
 <?php
+    $modalDelete = array(
+        'modalId' => 'delete-modal',
+        'modalType' => 'modal-sm',
+        'modalTitle' => 'Delete content',
+        'modalBody' => '
+            <input type="hidden" id="id-photo" />
+            <p>Apakah anda yakin ingin menghapus foto ini ?</p>
+        ',
+        'modalFooter' => '
+            <button type="submit" class="btn btn-danger" id="button-delete-photo">Delete</button>
+            <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+        '
+    );
+
     $this->load->view('components/page', array(
         'headers' => '
             <!-- Dropify -->
-            <link href="'. base_url("assets/vendor/vendor/dropify/dist/css/dropify.css") .'" rel="stylesheet" type="text/css" />
+            <link href="' . base_url("assets/vendor/vendor/dropify/dist/css/dropify.css") . '" rel="stylesheet" type="text/css" />
             <style>
                 .instagram {
                     background: #f09433; 
@@ -13,9 +27,10 @@
                 }
             </style>
         ',
+        'modals' => array($modalDelete),
         'content' => '
             <div class="row">
-                <input type="hidden" id="id-content" value="'. $idContent .'" />
+                <input type="hidden" id="id-content" value="' . $idContent . '" />
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="cover">Thumbnail</label>
@@ -58,13 +73,14 @@
                     <button id="edit-content" type="button" class="btn btn-success btn-block">Save</button>
                 </div>
             </div>
+            <div class="row" id="additional-photo-container">
+            </div>
         ',
         'footers' => '
             <!-- Dropify -->
-            <script src="'. base_url("assets/vendor/vendor/dropify/dist/js/dropify.js") .'"></script>
+            <script src="' . base_url("assets/vendor/vendor/dropify/dist/js/dropify.js") . '"></script>
             
             <!-- PageJS -->
-            <script src="'. base_url("assets/js/edit-content.js") .'"></script>
+            <script src="' . base_url("assets/js/edit-content.js") . '"></script>
         '
-    ));
-?>
+));

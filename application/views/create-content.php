@@ -25,7 +25,6 @@
                             data-allowed-file-extensions="png jpg jpeg"
                             data-height="320" />                    
                     </div>
-                    
                 </div>
                 <div class="col-md-8">
                     <div class="form-group">
@@ -59,6 +58,9 @@
                     </div>
                     <button id="create-content" type="button" class="btn btn-primary btn-block">Create</button>
                 </div>
+            </div>
+            <button id="button-additional-photo" type="button" class="mb-2 btn btn-dark btn-block">Add additional photo (Optional)</button>
+            <div class="row" id="additional-photo-container">
             </div>
         ',
         'footers' => '

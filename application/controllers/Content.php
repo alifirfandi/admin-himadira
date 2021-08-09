@@ -36,6 +36,9 @@ class Content extends CI_Controller
         $this->load->library("ContentLib", array(
             "sql" => $this->customSQL
         ));
+        $this->load->library("ContentImagesLib", array(
+            "sql" => $this->customSQL
+        ));
 
         // Check Session
         $this->session->check_login_session($this->request);
@@ -62,6 +65,7 @@ class Content extends CI_Controller
         try {
             $dataContent = $this->contentlib->getOne($id);
             $this->request->checkStatusFound($dataContent, "Konten");
+            $dataContent['photo'] = $this->contentimageslib->getContentPhoto($id);
 
             return $this->request
                 ->res(200, $dataContent, "Berhasil memuat data", null);
@@ -105,7 +109,7 @@ class Content extends CI_Controller
                     $this->request->checkStatusFail($isCreated);
 
                     return $this->request
-                        ->res(200, null, "Berhasil menambah data konten", null);
+                        ->res(200, $isCreated, "Berhasil menambah data konten", null);
                 }
 
                 return $this->request
@@ -170,7 +174,7 @@ class Content extends CI_Controller
                 ->res(400, null, "Harap isi semua form", null);
         } catch (Exception $e) {
             // Create Log
-            $this->customSQL->log("Update data categories: " . $e->getMessage());
+            $this->customSQL->log("Update data content: " . $e->getMessage());
 
             return $this->request
                 ->res(500, null, "Terjadi kesalahan pada sisi server : " . $e->getMessage(), null);
@@ -191,6 +195,62 @@ class Content extends CI_Controller
         } catch (Exception $e) {
             // Create Log
             $this->customSQL->log("Delete data content" . $e->getMessage());
+
+            return $this->request
+                ->res(500, null, "Terjadi kesalahan pada sisi server : " . $e->getMessage(), null);
+        }
+    }
+
+    public function insertPhoto($idContent)
+    {
+        try {
+            if (!$_FILES["photo"]['name']) {
+                return $this->request
+                    ->res(400, null, "Harap isi semua form", null);
+            }
+
+            $uploadFile = $this->fileUpload->do_upload("photo");
+
+            if ($uploadFile["status"]) {
+                $data = [
+                    "label" => $uploadFile["file_name"],
+                    "uri" => str_replace(FCPATH, "", $uploadFile["file_location"]),
+                    "id_content" => $idContent,
+                    "created_at" => date("Y-m-d H:i:s"),
+                ];
+
+                $isCreated = $this->contentimageslib->create($data);
+                $this->request->checkStatusFail($isCreated);
+
+                return $this->request
+                    ->res(200, null, "Berhasil menambah foto konten", null);
+            }
+
+            return $this->request
+                ->res(500, null, "Terjadi kesalahan saat mengunggah gambar", null);
+        } catch (Exception $e) {
+            // Create Log
+            $this->customSQL->log("Create data categories: " . $e->getMessage());
+
+            return $this->request
+                ->res(500, null, "Terjadi kesalahan pada sisi server : " . $e->getMessage(), null);
+        }
+    }
+
+    public function deletePhoto($idPhoto)
+    {
+        try {
+            $dataPhoto = $this->contentimageslib->getOne($idPhoto);
+            $this->request->checkStatusFound($dataPhoto, "Foto Konten");
+
+            $isDeleted = $this->contentimageslib->delete($idPhoto);
+            $this->request->checkStatusFail($isDeleted);
+
+            return $this->request
+                ->res(200, null, "Berhasil menghapus data foto konten", null);
+        } catch (Exception $e) {
+            // Create Log
+            $this->customSQL->log("Delete data photo content" . $e->getMessage());
 
             return $this->request
                 ->res(500, null, "Terjadi kesalahan pada sisi server : " . $e->getMessage(), null);

@@ -49,7 +49,16 @@ var global = {
 			</a>
 		`;
 	},
+	initDropify: function () {
+		$(".dropify").dropify({
+			messages: {
+				default: '<span class="h6">Upload photo here<span>',
+				replace: "Drag and drop or click to replace",
+				remove: "Remove",
+			},
+		});
+	},
 };
 
 // FIX BUG LATER
-$('#sidebarToggleTop').trigger('click')
+$("#sidebarToggleTop").trigger("click");

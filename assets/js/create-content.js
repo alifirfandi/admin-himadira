@@ -1,12 +1,20 @@
 $(document).ready(function () {
 	renderCategories();
+	global.initDropify();
 
-	$(".dropify").dropify({
-		messages: {
-			default: '<span class="h6">Upload cover here<span>',
-			replace: "Drag and drop or click to replace",
-			remove: "Remove",
-		},
+	$("#button-additional-photo").on("click", function () {
+		const el = $("<div>").attr("class", "col-md-4 col-sm-6");
+		const child = $("<input/>").attr({
+			type: "file",
+			class: "dropify additional-photo",
+			"data-allowed-formats": "square",
+			"data-allowed-file-extensions": "png jpg jpeg",
+			"data-height": "320",
+		});
+		el.append(child);
+		$("#additional-photo-container").append(el);
+		global.initDropify();
+		child.trigger("click");
 	});
 
 	$("#create-content").on("click", function () {
@@ -14,9 +22,7 @@ $(document).ready(function () {
 		const descriptionInput = $("#description").val().trim();
 		const linkInput = $("#link").val().trim();
 		const categoryInput = $("#category").val().trim();
-        const coverInput = $("#cover")[0].files[0];
-
-        console.log(coverInput)
+		const coverInput = $("#cover")[0].files[0];
 
 		if (titleInput == "" || descriptionInput == "" || linkInput == "") {
 			toastr.error("Harap isi semua kolom yang tersedia");
@@ -46,12 +52,22 @@ $(document).ready(function () {
 				console.log(response);
 				if (response.code === 200) {
 					toastr.success(response.message);
-					setTimeout(() => {
-						location.assign(`${global.base_url}views/contentInstagram`);
-					}, 1000);
+					if ($(".additional-photo").length > 0)
+						uploadAdditionalPhoto(response.data);
+					else
+						setTimeout(() => {
+							location.assign(
+								`${global.base_url}views/contentInstagram`
+							);
+						}, 1000);
 				} else {
 					toastr.error(response.message);
-					global.loadingButton("create-content", "primary", false, "Login");
+					global.loadingButton(
+						"create-content",
+						"primary",
+						false,
+						"Login"
+					);
 				}
 			},
 		});
@@ -85,4 +101,58 @@ function renderCategories() {
 			global.loadingButton("create-content", "primary", false, "Create");
 		},
 	});
+}
+
+async function uploadAdditionalPhoto(idContent) {
+	for (var i = 0; i < $(".additional-photo").length; i++) {
+		if ($(".additional-photo")[i].files.length > 0) {
+			await uploadPhoto(idContent, $(".additional-photo")[i].files[0], i);
+		}
+
+		if (i == $(".additional-photo").length - 1)
+			setTimeout(() => {
+				location.assign(`${global.base_url}views/contentInstagram`);
+			}, 1000);
+	}
+}
+
+async function uploadPhoto(idContent, imageData, pos) {
+	sleep(1000);
+	await postData(
+		`${global.base_url}content/insertPhoto/${idContent}`,
+		imageData
+	).then((data) => {
+		if(data.code == 200) toastr.success(`Foto ${pos + 1} berhasil ditambahkan`)
+		else toastr.error(`Foto ${pos + 1} gagal ditambahkan`)
+	});
+}
+
+function sleep(milliseconds) {
+	const date = Date.now();
+	let currentDate = null;
+	do {
+		currentDate = Date.now();
+	} while (currentDate - date < milliseconds);
+}
+
+async function postData(url = "", imageData) {
+	var formData = new FormData();
+	formData.append("photo", imageData);
+
+	const response = await fetch(url, {
+		method: "POST",
+		mode: "cors",
+		cache: "no-cache",
+		credentials: "same-origin",
+		headers: {
+			Accept: "*/*",
+			"Access-Control-Allow-Methods":
+				"GET, POST, OPTIONS, PUT, PATCH, DELETE",
+			"Access-Control-Allow-Headers":
+				"origin,X-Requested-With,content-type,accept",
+			"Access-Control-Allow-Credentials": "true",
+		},
+		body: formData,
+	});
+	return response.json();
 }
