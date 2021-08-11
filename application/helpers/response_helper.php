@@ -7,6 +7,7 @@ class Response_helper {
     // Return JSON Patter
     public function json($res, $code=200, $err=array(), $message="") {
         header('Content-Type: application/json');
+		
         return json_encode(array(
             "data"  => $res,
             "code"  => $code,

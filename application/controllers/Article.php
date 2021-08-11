@@ -126,8 +126,7 @@ class Article extends CI_Controller {
 				$idArticleTags = $this->articletaglib->create([
 					'id_article' => $idArticle,
 					'id_m_tags' => $tag,
-					"created_at" => date("Y-m-d H:i:s"),
-					"updated_at" => date("Y-m-d H:i:s"),
+					"created_at" => date("Y-m-d H:i:s")
 				]);
 				$this->request->checkStatusFail($idArticleTags);
 			}
@@ -185,9 +184,6 @@ class Article extends CI_Controller {
 
 			$isUpdated = $this->articlelib->update($idArticle, $articles);
 			$this->request->checkStatusFail($isUpdated);
-
-			$isDeleted = $this->articletaglib->delete($idArticle);
-			$this->request->checkStatusFail($isDeleted);
 
 			foreach ($data['tags'] as $tag) {
 				$idArticleTags = $this->articletaglib->create([

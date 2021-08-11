@@ -12,11 +12,6 @@ class ArticleApiLib
 
 	public function getArticles($id, $tag)
 	{
-		$query = "
-			SELECT `id`, `title`, `description`, `thumbnail`, `link`
-			FROM `$this->table`
-		";
-
 		if ($id !== null && $tag !== null) {
 			$whereQuery = "
 				WHERE `id_article` < '$id' AND
@@ -34,14 +29,13 @@ class ArticleApiLib
 			$whereQuery = "";
 		}
 
-		$query .= "
-			WHERE `id` IN(
-				SELECT `id_article`
-				FROM `article_tag`
-				$whereQuery
-				ORDER BY `id_article` DESC
-			)
-			ORDER BY `id` DESC 
+		$query = "
+			SELECT `article`.`id`, `article`.`title`, `article`.`description`, `article`.`thumbnail`, `article`.`link`
+			FROM `$this->table`
+			JOIN `article_tag` ON `article_tag`.`id_article` = `$this->table`.`id`
+			$whereQuery
+			GROUP BY `$this->table`.`id`
+			ORDER BY `$this->table`.`id` DESC
 			LIMIT 9
 		";
 
@@ -64,5 +58,20 @@ class ArticleApiLib
 			->result_array();
 
 		return $articles;
+	}
+
+
+	public function getArticleCounter($id)
+	{
+		return $this->params["sql"]->get("counter", "id = $id", $this->table)->row_array();
+	}
+
+	public function updateCounter($idArticle, $dataCounterArticle)
+	{
+		return $this->params["sql"]->update(
+			array("id" => $idArticle),
+			$dataCounterArticle,
+			$this->table
+		);
 	}
 }
