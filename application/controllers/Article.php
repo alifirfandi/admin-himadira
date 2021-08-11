@@ -96,15 +96,15 @@ class Article extends CI_Controller {
 		try {
 			$data = $this->input->post(null, TRUE);
 
-			$thumbnailLink = base_url() . $this->articleUploadDir . "placeholder.png";
+			$thumbnailLink = $this->articleUploadDir . "placeholder.png";
 
 			if (isset($_FILES["thumbnail"])) {
 				$thumbnail = $this->fileUpload->do_upload("thumbnail");
 				if ($thumbnail['status']) {
-					$thumbnailLink = base_url() . $this->articleUploadDir . $thumbnail["file_name"];
+					$thumbnailLink = $this->articleUploadDir . $thumbnail["file_name"];
 				} else {
 					return $this->request
-						->res(400, null, "Gagal mengupload image image", null);
+						->res(400, null, "Gagal mengupload image, perhatikan ukuran gambar dan format gambar", null);
 				}
 			} 
 
@@ -165,7 +165,7 @@ class Article extends CI_Controller {
 				if ($thumbnail['status']) {
 					$newArticleLink = base_url() . $this->articleUploadDir . $thumbnail["file_name"];
 
-					$thumbnailName = explode(base_url() . $this->articleUploadDir, $oldThumbnailLink);
+					$thumbnailName = explode($this->articleUploadDir, $oldThumbnailLink);
 
 					if ($thumbnailName[1] !== "placeholder.png") {
 						if (file_exists($this->articleUploadDir . $thumbnailName[1])) {
@@ -184,6 +184,9 @@ class Article extends CI_Controller {
 
 			$isUpdated = $this->articlelib->update($idArticle, $articles);
 			$this->request->checkStatusFail($isUpdated);
+
+			$isDeleted = $this->articletaglib->delete($idArticle);
+			$this->request->checkStatusFail($isDeleted);
 
 			foreach ($data['tags'] as $tag) {
 				$idArticleTags = $this->articletaglib->create([
@@ -215,7 +218,7 @@ class Article extends CI_Controller {
 			$this->request->checkStatusFail($isDeleted);
 
 			$articleThumbnail = $dataArticle['thumbnail'];
-			$articleThumbnail = explode(base_url().$this->articleUploadDir, $articleThumbnail);
+			$articleThumbnail = explode($this->articleUploadDir, $articleThumbnail);
 
 			if ($articleThumbnail[1] !== "placeholder.png") {
 				if (file_exists($this->articleUploadDir.$articleThumbnail[1])) {

@@ -54,14 +54,7 @@ $(document).ready(function () {
 });
 
 function initPlugin() {
-	$(".dropify").dropify({
-		messages: {
-			default: '<span class="h6">Upload thumbnail here<span>',
-			replace: "Drag and drop or click to replace",
-			remove: "Remove",
-		},
-	});
-
+	global.initDropify();
 }
 
 function renderTags() {
