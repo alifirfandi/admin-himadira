@@ -1,6 +1,7 @@
 <?php 
 
 defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Article extends CI_Controller {
 
 	private $custom_curl;
@@ -8,9 +9,11 @@ class Article extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
-		header("Access-Control-Allow-Origin: *");
-	
+
+		header('Access-Control-Allow-Origin: *');
+		header('Access-Control-Allow-Headers: *');
+		header('Access-Control-Allow-Methods: *');
+
 		// Load Model
 		$this->load->model("customSQL");
 		$this->load->model("request");
