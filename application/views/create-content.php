@@ -47,7 +47,7 @@
                             <div class="input-group">
                                 <input id="link" type="text" class="form-control" placeholder="Enter link instagram post">
                                 <div class="input-group-append">
-                                    <button class="instagram btn text-white btn-warning" type="button">Load</button>
+                                    <button class="instagram btn text-white btn-warning disabled" type="button" onclick="getSampleData()">Load</button>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                     <button id="create-content" type="button" class="btn btn-primary btn-block">Create</button>
                 </div>
             </div>
-            <button id="button-additional-photo" type="button" class="mb-2 btn btn-dark btn-block">Add additional photo (Optional)</button>
+            <button id="button-additional-photo" type="button" class="mt-2 mb-2 btn btn-dark btn-block">Add additional photo (Optional)</button>
             <div class="row" id="additional-photo-container">
             </div>
         ',

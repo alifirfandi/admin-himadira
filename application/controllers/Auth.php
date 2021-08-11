@@ -82,6 +82,6 @@ class Auth extends CI_Controller
         $this->session->remove_session(HIMADIRA_ADMIN_AUTH);
         $this->session->destroy_session();
         
-        redirect(base_url("authcheck/login"));
+        redirect(base_url("AuthCheck/login"));
     }
 }

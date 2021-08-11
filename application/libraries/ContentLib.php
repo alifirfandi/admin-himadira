@@ -49,6 +49,12 @@ class ContentLib
 		);
 	}
 
+	public function updateCounter($idContent){
+		$this->params["sql"]->query(
+			"UPDATE $this->table SET counter = counter + 1 WHERE id = $idContent"
+		);
+	}
+
 	public function delete($idContent)
 	{
 		return $this->params["sql"]->delete(

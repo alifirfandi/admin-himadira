@@ -14,7 +14,7 @@ class ContentImagesLib
 	public function getContentPhoto($idContent)
 	{
 		$dataPhoto = $this->params["sql"]->query("
-			SELECT $this->table.*
+			SELECT label, uri
 			FROM $this->table
             WHERE id_content = $idContent
 		")->result_array();

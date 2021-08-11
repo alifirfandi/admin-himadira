@@ -28,14 +28,14 @@ class Views extends CI_Controller
     private function checkAuth()
     {
         if (!$this->session->check_session(HIMADIRA_ADMIN_AUTH)) {
-            redirect(base_url("authcheck/login"));
+            redirect(base_url("AuthCheck/login"));
         }
     }
 
     // Index
     public function index()
     {
-        header('Location: ' . base_url("views/dashboard"));
+        header('Location: ' . base_url("Views/dashboard"));
     }
 
     // ============================================================================= Dashboard

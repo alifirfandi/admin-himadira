@@ -14,7 +14,7 @@ class CustomSQL extends CI_Model {
         $idMUsers = $_SESSION[HIMADIRA_ADMIN_AUTH]['id'];
         $this->query("
             INSERT INTO `m_logs` 
-            VALUES('', '$ipAddr', '$title', $idMUsers, '$createdAt')
+            VALUES(NULL, '$ipAddr', '$title', $idMUsers, '$createdAt')
         ");
     }
 
