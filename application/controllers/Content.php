@@ -6,6 +6,7 @@ class Content extends CI_Controller
 {
     // Public Variable
     public $custom_curl;
+    private $contentUploadDir = "assets/img/upload/content/";
 
     public function __construct()
     {
@@ -26,7 +27,7 @@ class Content extends CI_Controller
                     "jpeg"
                 ),
             ),
-            "assets/img/upload/content/"
+            $this->contentUploadDir
         );
 
         // Init Request

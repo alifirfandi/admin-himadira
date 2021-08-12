@@ -44,12 +44,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="link">Link</label>
-                            <div class="input-group">
-                                <input id="link" type="text" class="form-control" placeholder="Enter link instagram post">
-                                <div class="input-group-append">
-                                    <button class="instagram btn text-white btn-warning disabled" type="button" onclick="getSampleData()">Load</button>
-                                </div>
-                            </div>
+                            <input id="link" type="text" class="form-control" placeholder="Enter link instagram post">
                         </div>
                     </div>
                     <div class="form-group">

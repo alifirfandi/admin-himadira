@@ -7,7 +7,7 @@
 		<div class="card">
 		<div class="row">
 			<div class="col-md-6">
-				<img id="cover" class="card-img-top" src="'. base_url("assets/img/content-ig.jpg") .'" alt="Card image cap">
+				<img id="cover" class="card-img-top" src="'. base_url("assets/img/loader.gif") .'" alt="Card image cap">
 			</div>
 			<div class="col-md-6">
 				<div class="card-body">
