@@ -63,7 +63,7 @@ $(document).ready(function () {
 
 function renderDataArticle() {
 	$.ajax({
-		url: `${global.base_url}article/find/` + idArticle,
+		url: `${global.base_url}article/find/${idArticle}`,
 		type: "GET",
 		success: function (response) {
 			if (response.code === 200) {
@@ -72,13 +72,11 @@ function renderDataArticle() {
 				$("#link").val(response.data.link);
 				$("#counter").text(response.data.counter);
 				$("#thumbnail")
-					.attr(
-						"data-default-file",
-						response.data.thumbnail
-					)
+					.attr("data-default-file", global.base_url + response.data.thumbnail)
 					.dropify({
 						messages: {
-							default: '<span class="h6">Upload thumbnail here<span>',
+							default:
+								'<span class="h6">Upload thumbnail here<span>',
 							replace: "Drag and drop or click to replace",
 							remove: "Remove",
 						},

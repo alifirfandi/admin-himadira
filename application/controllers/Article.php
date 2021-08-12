@@ -96,17 +96,14 @@ class Article extends CI_Controller {
 		try {
 			$data = $this->input->post(null, TRUE);
 
-			$thumbnailLink = base_url() . $this->articleUploadDir . "placeholder.png";
+			$thumbnail = $this->fileUpload->do_upload("thumbnail");
 
-			if (isset($_FILES["thumbnail"])) {
-				$thumbnail = $this->fileUpload->do_upload("thumbnail");
-				if ($thumbnail['status']) {
-					$thumbnailLink = base_url() . $this->articleUploadDir . $thumbnail["file_name"];
-				} else {
-					return $this->request
-						->res(400, null, "Gagal mengupload image image", null);
-				}
-			} 
+			if ($thumbnail['status']) {
+				$thumbnailLink = $this->articleUploadDir . $thumbnail["file_name"];
+			} else {
+				return $this->request
+					->res(400, null, "Gagal mengupload image, perhatikan ukuran gambar dan format gambar", null);
+			}
 
 			$articles = [
 				"title" => $data["title"],
@@ -150,7 +147,7 @@ class Article extends CI_Controller {
 			$article = $this->articlelib->getOne($idArticle);
 			$this->request->checkStatusFound($article, "Article");
 
-			$oldThumbnailLink = $article['thumbnail'];
+			$oldArticleThumbnail = $article['thumbnail'];
 
 			$articles = [
 				"title" => $data["title"],
@@ -163,17 +160,13 @@ class Article extends CI_Controller {
 			if (isset($_FILES["thumbnail"])) {
 				$thumbnail = $this->fileUpload->do_upload("thumbnail");
 				if ($thumbnail['status']) {
-					$newArticleLink = base_url() . $this->articleUploadDir . $thumbnail["file_name"];
+					$newArticleThumbnail = $this->articleUploadDir . $thumbnail["file_name"];
 
-					$thumbnailName = explode(base_url() . $this->articleUploadDir, $oldThumbnailLink);
-
-					if ($thumbnailName[1] !== "placeholder.png") {
-						if (file_exists($this->articleUploadDir . $thumbnailName[1])) {
-							unlink($this->articleUploadDir . $thumbnailName[1]);
-						}
+					if (file_exists($oldArticleThumbnail)) {
+						unlink($oldArticleThumbnail);
 					}
 
-					$articles["thumbnail"] = $newArticleLink;
+					$articles["thumbnail"] = $newArticleThumbnail;
 				} else {
 					return $this->request
 						->res(400, null, "Gagal mengupload image", null);
@@ -184,6 +177,9 @@ class Article extends CI_Controller {
 
 			$isUpdated = $this->articlelib->update($idArticle, $articles);
 			$this->request->checkStatusFail($isUpdated);
+
+			$isDeleted = $this->articletaglib->delete($idArticle);
+			$this->request->checkStatusFail($isDeleted);
 
 			foreach ($data['tags'] as $tag) {
 				$idArticleTags = $this->articletaglib->create([
@@ -214,13 +210,8 @@ class Article extends CI_Controller {
 			$isDeleted = $this->articlelib->delete($idArticle);
 			$this->request->checkStatusFail($isDeleted);
 
-			$articleThumbnail = $dataArticle['thumbnail'];
-			$articleThumbnail = explode(base_url().$this->articleUploadDir, $articleThumbnail);
-
-			if ($articleThumbnail[1] !== "placeholder.png") {
-				if (file_exists($this->articleUploadDir.$articleThumbnail[1])) {
-					unlink($this->articleUploadDir . $articleThumbnail[1]);
-				}
+			if (file_exists($dataArticle['thumbnail'])) {
+				unlink($dataArticle['thumbnail']);
 			}
 
 			$dataTagsArticle = $this->articletaglib->getOne($idArticle);

@@ -16,7 +16,9 @@
                             class="dropify" 
                             id="thumbnail" 
                             data-allowed-file-extensions="png jpg jpeg"
-                            data-height="320" />                    
+							data-max-file-size="500K"
+							data-height="320"
+						/>                    
                     </div>
                     
                 </div>

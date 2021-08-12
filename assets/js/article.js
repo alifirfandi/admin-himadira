@@ -142,7 +142,7 @@ function renderArticleThumbnail (_data, _type, row) {
 				style="
 					width: 64px;
 					height: 64px;
-					background-image: url('${row.thumbnail}');
+					background-image: url('${global.base_url}/${row.thumbnail}');
 					background-position: center;
 					background-repeat: no-repeat;
 					background-size: cover;
