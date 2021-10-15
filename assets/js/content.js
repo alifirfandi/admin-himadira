@@ -24,6 +24,14 @@ $(document).ready(function () {
 			},
 		});
 	})
+
+	$(document).on('focusin', function(e) {
+		var target = $(e.target);
+		if (target.closest(".mce-window").length || target.closest(".tox-dialog").length) {
+			e.stopImmediatePropagation();
+			target = null;
+		}
+	});
 });
 
 function renderContent() {
@@ -92,4 +100,8 @@ function prepareUpdate(id){
 
 function confirmDelete(id){
 	$("#id-content").val(id);
+}
+
+function initFormEditor(){
+
 }

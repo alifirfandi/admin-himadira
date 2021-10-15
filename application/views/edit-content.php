@@ -67,8 +67,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea class="form-control" id="description" rows="4" placeholder="Enter description"></textarea>
+                        <label for="form-editor">Description</label>
+                        <textarea class="form-control" id="form-editor" rows="4" placeholder="Enter description"></textarea>
                     </div>
                     <button id="edit-content" type="button" class="btn btn-success btn-block">Save</button>
                 </div>
@@ -79,7 +79,10 @@
         'footers' => '
             <!-- Dropify -->
             <script src="' . base_url("assets/vendor/vendor/dropify/dist/js/dropify.js") . '"></script>
-            
+
+            <!--Wysiwig js-->
+            <script src="'. base_url("assets/vendor/vendor/tinymce/tinymce.min.js") .'"></script>
+
             <!-- PageJS -->
             <script src="' . base_url("assets/js/edit-content.js") . '"></script>
         '

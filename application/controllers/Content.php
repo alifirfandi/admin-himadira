@@ -157,6 +157,11 @@ class Content extends CI_Controller
 
                 if ($uploadFile["status"]) {
                     $data = [
+                        "title" => $title,
+                        "description" => $description,
+                        "id_m_categories" => $category,
+                        "link" => $link,
+                        "updated_at" => date("Y-m-d H:i:s"),
                         "thumbnail" => str_replace(FCPATH, "", $uploadFile["file_location"]),
                     ];
 

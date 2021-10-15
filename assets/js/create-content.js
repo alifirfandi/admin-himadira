@@ -1,6 +1,7 @@
 $(document).ready(function () {
 	renderCategories();
 	global.initDropify();
+	global.initFormEditor();
 
 	$("#button-additional-photo").on("click", function () {
 		const el = $("<div>").attr("class", "col-md-4 col-sm-6");
@@ -19,7 +20,7 @@ $(document).ready(function () {
 
 	$("#create-content").on("click", function () {
 		const titleInput = $("#title").val().trim();
-		const descriptionInput = $("#description").val().trim();
+		const descriptionInput = tinymce.get("form-editor").getContent().trim()
 		const linkInput = $("#link").val().trim();
 		const categoryInput = $("#category").val().trim();
 		const coverInput = $("#cover")[0].files[0];
@@ -34,7 +35,7 @@ $(document).ready(function () {
 
 		const formData = new FormData();
 		formData.append("title", titleInput);
-		formData.append("description", descriptionInput);
+		formData.append("description", `${tinymce.get("form-editor").getContent({ format: 'raw' })}`);
 		formData.append("link", linkInput);
 		formData.append("category", categoryInput);
 		formData.append("cover", coverInput);

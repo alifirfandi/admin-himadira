@@ -3,7 +3,7 @@ $(document).ready(function () {
 
 	$("#edit-content").on("click", function () {
 		const titleInput = $("#title").val().trim();
-		const descriptionInput = $("#description").val().trim();
+		const descriptionInput = tinymce.get("form-editor").getContent().trim();
 		const linkInput = $("#link").val().trim();
 		const categoryInput = $("#category").val().trim();
 		var coverInput = $("#cover")[0].files[0];
@@ -17,7 +17,7 @@ $(document).ready(function () {
 
 		const formData = new FormData();
 		formData.append("title", titleInput);
-		formData.append("description", descriptionInput);
+		formData.append("description", tinymce.get("form-editor").getContent().replace(/"/g, "'"));
 		formData.append("link", linkInput);
 		formData.append("category", categoryInput);
 		formData.append("cover", coverInput);
@@ -95,7 +95,7 @@ function renderDataContent() {
 		success: function (response) {
 			if (response.code === 200) {
 				$("#title").val(response.data.title);
-				$("#description").val(response.data.description);
+				global.initFormEditor(response.data.description)
 				$("#link").val(response.data.link);
 				$("#counter").text(response.data.counter);
 				$("#cover")
